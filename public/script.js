@@ -1,31 +1,54 @@
-const posts=[
+let posts = JSON.parse(localStorage.getItem("posts"))
+
+if(!posts){
+
+posts = [
 
 {
 title:"Duty Free Rantau Panjang",
 image:"https://images.unsplash.com/photo-1607082350899-7e105aa886ae",
-text:"Tempat shopping paling popular di Kelantan."
+text:"Tempat shopping terkenal di Rantau Panjang.",
+likes:0,
+comments:[]
 },
 
 {
 title:"Roti John BB's",
 image:"https://images.unsplash.com/photo-1550547660-d9450f859349",
-text:"Roti john mini viral di Rantau Panjang."
-},
-
-{
-title:"Golok View Homestay",
-image:"https://images.unsplash.com/photo-1566073771259-6a8506099945",
-text:"Homestay selesa dekat sempadan Thailand."
+text:"Roti john mini viral.",
+likes:0,
+comments:[]
 }
 
 ]
+
+localStorage.setItem("posts",JSON.stringify(posts))
+
+}
+
+
+function savePosts(){
+
+localStorage.setItem("posts",JSON.stringify(posts))
+
+}
 
 
 function loadPosts(){
 
 const feed=document.getElementById("feed")
 
-posts.forEach(p=>{
+feed.innerHTML=""
+
+posts.forEach((p,i)=>{
+
+let commentHTML=""
+
+p.comments.forEach((c,index)=>{
+
+commentHTML+=`<div>${index+1}. ${c}</div>`
+
+})
 
 feed.innerHTML+=`
 
@@ -39,21 +62,31 @@ feed.innerHTML+=`
 
 <div class="buttons">
 
-<button onclick="like(this)">👍 Like <span>0</span></button>
+<button onclick="like(${i})">
+👍 Like (${p.likes})
+</button>
 
-<button onclick="toggleComment(this)">💬 Comment</button>
+<button onclick="toggleComment(${i})">
+💬 Comment
+</button>
 
-<button onclick="share()">🔗 Share</button>
+<button onclick="share()">
+🔗 Share
+</button>
 
 </div>
 
-<div class="commentBox">
+<div class="commentBox" id="comment${i}">
 
-<input class="commentInput" placeholder="Tulis komen">
+<input id="input${i}" placeholder="Tulis komen">
 
-<button onclick="addComment(this)">Hantar</button>
+<button onclick="addComment(${i})">Hantar</button>
 
-<div class="comments"></div>
+<div class="comments">
+
+${commentHTML}
+
+</div>
 
 </div>
 
@@ -68,64 +101,45 @@ feed.innerHTML+=`
 loadPosts()
 
 
+function like(i){
 
-function like(btn){
+posts[i].likes++
 
-let count=btn.querySelector("span")
+savePosts()
 
-if(btn.dataset.liked){
-
-alert("Anda sudah like")
-
-return
-
-}
-
-count.innerText=parseInt(count.innerText)+1
-
-btn.dataset.liked=true
+loadPosts()
 
 }
 
 
-function toggleComment(btn){
+function toggleComment(i){
 
-let post=btn.closest(".post")
-
-let box=post.querySelector(".commentBox")
+let box=document.getElementById("comment"+i)
 
 box.style.display=box.style.display==="block"?"none":"block"
 
 }
 
 
-function addComment(btn){
+function addComment(i){
 
-let post=btn.closest(".post")
+let input=document.getElementById("input"+i)
 
-let input=post.querySelector(".commentInput")
-
-let comments=post.querySelector(".comments")
-
-let number=comments.children.length+1
-
-let div=document.createElement("div")
-
-div.innerText=number+". "+input.value
-
-comments.appendChild(div)
+posts[i].comments.push(input.value)
 
 input.value=""
+
+savePosts()
+
+loadPosts()
 
 }
 
 
 function share(){
 
-let url=window.location.href
+navigator.clipboard.writeText(window.location.href)
 
-navigator.clipboard.writeText(url)
-
-alert("Link copied. Boleh share di Facebook atau WhatsApp")
+alert("Link copied")
 
 }
