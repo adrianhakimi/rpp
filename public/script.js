@@ -1,34 +1,61 @@
-async function loadPlaces(){
+const posts=[
 
-const res = await fetch("/places")
+{
+title:"Duty Free Rantau Panjang",
+image:"https://images.unsplash.com/photo-1607082350899-7e105aa886ae",
+text:"Tempat shopping paling popular di Kelantan."
+},
 
-const places = await res.json()
+{
+title:"Roti John BB's",
+image:"https://images.unsplash.com/photo-1550547660-d9450f859349",
+text:"Roti john mini viral di Rantau Panjang."
+},
 
-const feed = document.getElementById("feed")
+{
+title:"Golok View Homestay",
+image:"https://images.unsplash.com/photo-1566073771259-6a8506099945",
+text:"Homestay selesa dekat sempadan Thailand."
+}
 
-places.forEach(p=>{
+]
+
+
+function loadPosts(){
+
+const feed=document.getElementById("feed")
+
+posts.forEach(p=>{
 
 feed.innerHTML+=`
 
 <div class="post">
 
-<h2>${p.name}</h2>
+<h3>${p.title}</h3>
 
 <img src="${p.image}">
 
-<p>${p.description}</p>
+<p>${p.text}</p>
 
-<button onclick="like('${p._id}')">
-👍 Like (${p.likes.length})
-</button>
+<div class="buttons">
 
-<button onclick="comment('${p._id}')">
-💬 Comment
-</button>
+<button onclick="like(this)">👍 Like <span>0</span></button>
 
-<button onclick="share()">
-🔗 Share
-</button>
+<button onclick="toggleComment(this)">💬 Comment</button>
+
+<button onclick="share()">🔗 Share</button>
+
+</div>
+
+<div class="commentBox">
+
+<input class="commentInput" placeholder="Tulis komen">
+
+<button onclick="addComment(this)">Hantar</button>
+
+<div class="comments"></div>
+
+</div>
 
 </div>
 
@@ -38,22 +65,67 @@ feed.innerHTML+=`
 
 }
 
-loadPlaces()
+loadPosts()
 
-async function like(id){
 
-await fetch("/like/"+id,{method:"POST"})
 
-location.reload()
+function like(btn){
+
+let count=btn.querySelector("span")
+
+if(btn.dataset.liked){
+
+alert("Anda sudah like")
+
+return
 
 }
 
+count.innerText=parseInt(count.innerText)+1
+
+btn.dataset.liked=true
+
+}
+
+
+function toggleComment(btn){
+
+let post=btn.closest(".post")
+
+let box=post.querySelector(".commentBox")
+
+box.style.display=box.style.display==="block"?"none":"block"
+
+}
+
+
+function addComment(btn){
+
+let post=btn.closest(".post")
+
+let input=post.querySelector(".commentInput")
+
+let comments=post.querySelector(".comments")
+
+let number=comments.children.length+1
+
+let div=document.createElement("div")
+
+div.innerText=number+". "+input.value
+
+comments.appendChild(div)
+
+input.value=""
+
+}
+
+
 function share(){
 
-let url = window.location.href
+let url=window.location.href
 
 navigator.clipboard.writeText(url)
 
-alert("link copied")
+alert("Link copied. Boleh share di Facebook atau WhatsApp")
 
 }

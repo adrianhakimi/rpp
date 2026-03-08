@@ -1,35 +1,67 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <title>Rantau Panjang Post</title>
 
 <link rel="stylesheet" href="style.css">
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 
 <body>
 
-<header>
+<header class="topbar">
 
-<h1>Rantau Panjang Post</h1>
+<div class="logo">Rantau Panjang Post</div>
 
-<nav>
-
-<a href="#">Home</a>
-<a href="#">Tempat Menarik</a>
-<a href="#">Kedai Makan</a>
-<a href="#">Hotel</a>
-
-</nav>
+<input class="search" placeholder="Search tempat makan, hotel...">
 
 </header>
 
-<div id="feed"></div>
+
+<div class="layout">
+
+<!-- LEFT SIDEBAR -->
+
+<div class="left">
+
+<h3>Menu</h3>
+
+<ul>
+
+<li>🏠 Home</li>
+<li>📍 Tempat Menarik</li>
+<li>🍜 Kedai Makan</li>
+<li>🏨 Hotel & Homestay</li>
+<li>🛍 Duty Free</li>
+
+</ul>
+
+</div>
+
+
+<!-- MAIN FEED -->
+
+<div class="feed" id="feed"></div>
+
+
+<!-- RIGHT SIDEBAR -->
+
+<div class="right">
+
+<h3>Tempat Viral</h3>
+
+<p>🍔 Roti John BB's</p>
+<p>🍜 Nasi Kerabu Kak Pah</p>
+<p>🛍 Duty Free Rantau Panjang</p>
+
+</div>
+
+</div>
 
 <script src="script.js"></script>
 
 </body>
-
 </html>

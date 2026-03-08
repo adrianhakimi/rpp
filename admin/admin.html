@@ -1,40 +1,26 @@
-<h2>Add Place</h2>
+<!DOCTYPE html>
+<html>
 
-<input id="name" placeholder="Nama tempat">
+<head>
 
-<input id="image" placeholder="Image URL">
+<title>Admin Rantau Panjang Post</title>
 
-<input id="category" placeholder="Kategori">
+</head>
 
-<textarea id="desc"></textarea>
+<body>
 
-<button onclick="submitPlace()">Submit</button>
+<h2>Tambah Post</h2>
 
-<script>
+<input id="title" placeholder="Title"><br><br>
 
-async function submitPlace(){
+<input id="image" placeholder="Image URL"><br><br>
 
-await fetch("/place",{
+<textarea id="text" placeholder="Description"></textarea><br><br>
 
-method:"POST",
+<button onclick="addPost()">Submit</button>
 
-headers:{
-"Content-Type":"application/json"
-},
+<script src="admin.js"></script>
 
-body:JSON.stringify({
+</body>
 
-name:document.getElementById("name").value,
-image:document.getElementById("image").value,
-category:document.getElementById("category").value,
-description:document.getElementById("desc").value
-
-})
-
-})
-
-alert("Place added")
-
-}
-
-</script>
+</html>
