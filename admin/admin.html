@@ -1,0 +1,40 @@
+<h2>Add Place</h2>
+
+<input id="name" placeholder="Nama tempat">
+
+<input id="image" placeholder="Image URL">
+
+<input id="category" placeholder="Kategori">
+
+<textarea id="desc"></textarea>
+
+<button onclick="submitPlace()">Submit</button>
+
+<script>
+
+async function submitPlace(){
+
+await fetch("/place",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+name:document.getElementById("name").value,
+image:document.getElementById("image").value,
+category:document.getElementById("category").value,
+description:document.getElementById("desc").value
+
+})
+
+})
+
+alert("Place added")
+
+}
+
+</script>
